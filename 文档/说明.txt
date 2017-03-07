@@ -1,0 +1,10 @@
+数据库：sql server 2008 R2
+数据库脚本 SQL Server 2005
+数据库连接语句：Gx/sql.cs中私有方法
+static DbConnection GetOpenConnection()
+
+普通用户直接申请
+
+管理员
+账号：admin
+密码：admin
