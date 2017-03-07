@@ -1,0 +1,295 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>博客园</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/assets/Hexo/css/style.css" rel="stylesheet" />
+    <link href="/assets/Default/styles/font-awesome.css" rel="stylesheet" />
+    <script src="/assets/Hexo/js/jquery-1.10.2.min.js"></script>
+    <style>
+        .xiangqing {
+            display: block;
+            float: right;
+            width: 162px;
+            text-align: center;
+            z-index: 1;
+        }
+
+            .xiangqing a {
+                color: #aaa;
+                cursor: pointer;
+            }
+
+        .xq-page {
+            display: block;
+            height: 60px;
+            padding: 10px;
+            margin: 30px 30px 0 30px;
+            border-top: 1px solid #ddd;
+            overflow-x: inherit;
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
+
+        .submit-content {
+            margin: 10px 30px;
+            text-align: right;
+        }
+
+        .g-btn {
+            padding: 10px;
+            background: #ffffff;
+        }
+        .xqbk {
+            display: block;
+            width: 60px;
+            padding: 10px;
+            margin: 0 auto;
+            border: 1px solid #999999;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .write-bk {
+            display: block;
+            background: #ffffff;
+            margin: 30px;
+            border: 1px solid #ddd;
+            -webkit-transition: all 0.2s ease-in;
+        }
+        .write-bk form {
+            line-height: 1.8em;
+            padding: 30px;
+        }
+        .write-bk form label {
+            display: inline-block;
+            width: 80px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;  
+            vertical-align: top;  
+        }
+        .write-bk > textarea,input {
+            display: inline-block;
+            padding:5px;
+            vertical-align: top;  
+        }
+        .write-bk button{
+
+            padding: 10px;
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="left-col">
+            <div class="overlay"></div>
+            <div class="intrude-less">
+                <header id="header" class="inner">
+                    <a href="/" class="profilepic">
+                        <img lazy-src="/images/logo.jpg" class="js-avatar">
+                    </a>
+                    <hgroup>
+                        <h1 class="header-author"><a href="/">@ViewBag.name</a></h1>
+                    </hgroup>
+                </header>
+            </div>
+            <a class="xqbk">申请博客</a>
+        </div>
+
+        <div class="mid-col">
+            <div class="write-bk" style="display: none;">
+                <header class="article-header">
+                    <h1 itemprop="name">
+                        <a class="article-title">申请博客</a>
+                    </h1>
+                </header>
+                <form>
+                    <div class="item">
+                        <label for="reason">申请理由：</label>
+                        <textarea id="reason" name="reason" rows="5" cols="30"></textarea>
+                    </div>
+                    <div class="item">
+                        <label for="name">真实姓名：</label>
+                        <input type="text" id="name" name="name" />
+                    </div>
+                    <div class="item">
+                        <label for="job">职位：</label>
+                        <input type="text" id="job" name="job" />
+                    </div>
+                    <label for="address">单位：</label>
+                    <input type="text" id="address" name="address" />
+                    <div class="item">
+                        <label for="hobby">技术兴趣：</label>
+                        <textarea  id="hobby" name="hobby" rows="5" cols="30"></textarea>
+                    </div>
+                    <input id="bksq" type="button" value="提交" />
+                </form>
+            </div>
+            <div class="body-wrap">
+                <div id="blog_list">
+                                        @foreach (Model.V_bk n in ViewBag.list)
+                                        {
+            <article class="article article-type-post" itemscope itemprop="blogPost" val="@n.id">
+            <div class="article-meta">
+                <a class="article-date">
+                    <time datetime="" itemprop="datePublished">@n.time.ToString("yyyy年MM月dd日 HH:mm")</time>
+                </a>
+            </div>
+            <div class="article-inner">
+                <header class="article-header">
+                    <h1 itemprop="name">
+                        <a class="article-title">
+                            @if (n.type == -1) { <text>未通过</text> } 
+                            else if (n.type == 0) { <text>未审核</text> }
+                            else if (n.type == 1){ <text>通过</text> }
+                        </a>
+                    </h1>
+                </header>
+                <div class="article-entry" itemprop="articleBody">
+                    @n.sqly
+                </div>
+                <div class="xiangqing"><a>详情</a></div>
+                <div class="xq-page" style="display:none;">
+                    <div class="item">真实姓名：@n.xm</div>
+                    <div class="item">职位：@n.zw</div>
+                    <div class="item">单位：@n.dw</div>
+                </div>
+                <div class="article-info article-info-index">
+                    <div class="article-tag tagcloud">
+                        <ul class="article-tag-list">
+                            @{ 
+                                string[] l = n.jsxq.Split(',');
+                            }
+                            @foreach (string str in l)
+                            {
+                                <li class="article-tag-list-item"><a class="article-tag-list-link" asp-action="Tag" asp-controller="Home" asp-route-tag="Tag">@str</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="submit-content">
+                    <button class="g-btn">取消申请</button>
+                </div>
+            </div>
+        </article>
+                                    }
+                </div>
+            </div>
+            <footer id="footer">
+                <div class="outer">
+                    <div id="footer-info">
+                        <div class="footer-left">
+                            版权所有  &copy; 2017
+                            <a href="http://www.gx018.com" target="_blank">www.gx018.com</a>
+                        </div>
+                        <div class="footer-right">
+                            Powered by <a href="http://www.gx018.com" target="_blank">Gx</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <link href="/assets/Hexo/css/fancybox.css" rel="stylesheet" />
+        <script src="/assets/Hexo/js/highlight.js"></script>
+        <script src="/assets/Hexo/js/r.js"></script>
+        <script src="/assets/Hexo/js/main.js"></script>
+        <script>
+            var yiliaConfig = {
+                                                    fancybox: true,
+                mathjax: true,
+                animate: true,
+                isHome: true,
+                isPost: false,
+                isArchive: false,
+                isTag: false,
+                isCategory: false,
+                open_in_new: false
+            }
+        </script>
+    </div>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <script>
+        /*取URL参数的方法(传入的参数是中文的时候有问题)*/
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        //详情
+        $(".xiangqing a").click(function () {
+            var $xqPage =$(this).parent().siblings(".xq-page");
+            if ($xqPage.is(":visible") == true) {
+                $xqPage.fadeOut();
+            }
+            else {
+                $xqPage.fadeIn();
+            }
+        })
+        //申请博客
+        $(".xqbk").click(function () {
+            var $writeBk = $(".write-bk");
+            if ($writeBk.is(":visible") == true) {
+                $writeBk.fadeOut();
+            }
+            else {
+                $writeBk.fadeIn();
+            } 
+        })
+        $("#bksq").click(function () {
+            var d = {
+                 reason : $("#reason").val(),
+                 name : $("#name").val(),
+                 job : $("#job").val(),
+                 address : $("#address").val(),
+                 hobby : $("#hobby").val(),
+            };
+            var bool = true;
+            if (d.reason == "")
+                bool = false;
+            if (d.name == "")
+                bool = false;
+            if (d.job == "")
+                bool = false;
+            if (d.address == "")
+                bool = false;
+            if (d.hobby == "")
+                bool = false;
+            if (!bool)
+            {
+                alert("请补全信息！")
+                return;
+            }
+            $.post("/user/sq/", d, function (data) {
+                if (data.result) {
+                    alert(data.message);
+                    window.location.href = "/user/index";
+                }
+                else {
+                    alert(data.message);
+                }
+             },"json");
+        });
+        $(".g-btn").click(function () {
+            var div = $(this).parent().parent().parent("article");
+            var id = div.attr("val");
+            $.post("/user/del", { "id": id }, function (data) {
+                if (data.result) {
+                    alert(data.message);
+                    div.hide();
+                }
+                else {
+                    alert(data.message);
+                }
+            },"json");
+        });
+    </script>
+</body>
+</html>
