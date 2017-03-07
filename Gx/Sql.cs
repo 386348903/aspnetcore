@@ -108,7 +108,7 @@ namespace Gx
         #region 私有方法
         static DbConnection GetOpenConnection()
         {
-            var connection = new SqlConnection(@"server=.;uid=sa;pwd=xu2935945;database=DataBase;");
+            var connection = new SqlConnection(@"server=.;uid=sa;pwd=123;database=DataBase;");
             connection.Open();
             return connection;
         }
